@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h1>Welcome, <span id="username"></span>!</h1>
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        // 获取当前用户的用户名
+        var username = "{{ user.username }}";
+        document.getElementById("username").textContent = username;
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                fetch('/logout', {
+                    method: 'GET',
+                    credentials: 'same-origin'  // 保持与当前页面相同的凭证
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = "/login";
+                        } else {
+                            alert('Logout failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Logout failed');
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
